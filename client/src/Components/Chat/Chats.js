@@ -1,16 +1,64 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { ChatHeader } from "./ChatHeader";
-import img from "../../logo.svg";
+import img from "../../Assets/profile_pic.jpg";
+import axios from "axios";
 
 export const Chats = () => {
   const [chatMenu, setChatMenu] = useState(false);
+  const [users, setUsers] = useState([]);
+
+  const [account, setAccount] = useState({});
+  function userInfo() {
+    axios
+      .get("http://localhost:5000/userinfo", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        setAccount(res.data.user);
+        //console.log(res);
+      });
+  }
+
+  function getAllUsers() {
+    axios.get("http://localhost:5000/getallusers").then((res) => {
+      //   const filterdata = res.filter((user) =>
+      //     user.name.toLowerCase().includes(account.toLowerCase())
+      //   );
+      //   setUsers(filterdata);
+      setUsers(res.data || []);
+    });
+  }
+
+  useEffect(() => {
+    userInfo();
+  }, []);
+
+  useEffect(() => {
+    getAllUsers();
+  }, [account]);
+
   return (
     <div className="flex flex-col bg-[#f4f4f4] h-full rounded-lg w-1/3 ">
-      <ChatHeader />
-      <div className="flex gap-2 border-b-2 items-center p-2 hover:bg-[#bed8d7a1] cursor-pointer">
-        <img src={img} alt="" className="h-10 w-10 rounded-full bg-white m-2" />
-        <h1 className="font-bold text-base text-[#016966]">User 2</h1>
+      <ChatHeader account={account} />
+      <div className="flex flex-col">
+        {users.map(
+          (user) =>
+            user.userName !== account.userName && (
+              <div className="flex gap-2 border-b-2 items-center p-2 hover:bg-[#bed8d7a1] cursor-pointer">
+                <img
+                  src={img}
+                  alt=""
+                  className="h-10 w-10 rounded-full bg-white m-2"
+                />
+                <h1 className="font-bold text-base text-[#016966]">
+                  {user.userName}
+                </h1>
+              </div>
+            )
+        )}
       </div>
       <div className="ml-auto m-3 mt-auto flex flex-col">
         <div
