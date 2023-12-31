@@ -43,7 +43,7 @@ export const Messages = ({ socket, conversation }) => {
     message = {
       sender: account.userName,
       receiver: person.userName,
-      convoId: conversation._id,
+      convoId: conversation?._id,
       type: "text",
       text: value,
     };
@@ -59,15 +59,18 @@ export const Messages = ({ socket, conversation }) => {
       <div className="bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-white via-amber-100 to-orange-200 h-full p-4 flex flex-col gap-2 w-full">
         {messages &&
           messages.map((message) => (
-            <div
-              className={
-                account.userName === message.sender
-                  ? "p-2 rounded-xl bg-[#f98d00] ml-auto shadow-lg"
-                  : "p-2 rounded-xl bg-[#03d2cd] mr-auto shadow-lg"
-              }
-            >
-              {message.text}
-            </div>
+            <>
+              <div
+                className={
+                  account.userName === message.sender
+                    ? "p-2 rounded-xl bg-[#f98d00] ml-auto shadow-lg"
+                    : "p-2 rounded-xl bg-[#03d2cd] mr-auto shadow-lg"
+                }
+              >
+                {message.text}
+                {/* <h5 className="text-xs ml-auto">{message.createdAt}</h5> */}
+              </div>
+            </>
           ))}
       </div>
       {person ? (

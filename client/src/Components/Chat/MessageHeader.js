@@ -8,7 +8,10 @@ export const MessageHeader = ({ person }) => {
   return (
     <div className="flex bg-[#ffb81e] items-center gap-2 shadow-lg relative w-full rounded-t-lg">
       <img src={img} alt="" className="h-16 w-16 rounded-full bg-white m-3" />
-      <h1 className="font-bold text-[#6b3c00] text-xl">{person.userName}</h1>
+      <div className="flex flex-col">
+        <h1 className="font-bold text-[#6b3c00] text-xl">{person.userName}</h1>
+        <h5 className=" text-[#6b3c00] text-xs">{person.name}</h5>
+      </div>
     </div>
   );
 };

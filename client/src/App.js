@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home } from "./Components/Home";
 import { ChatBox } from "./Components/Chat/ChatBox";
 
-const socket = io.connect("http://localhost:8000");
+const socket = io("http://localhost:5000");
 
 function App() {
   // const socket = useRef();
