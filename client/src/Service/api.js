@@ -3,7 +3,10 @@ import axios from "axios";
 
 export const newConvo = async (data) => {
   try {
-    let res = await axios.post("http://localhost:5000/conversation/add", data);
+    let res = await axios.post(
+      "https://chat-buzz.onrender.com/conversation/add",
+      data
+    );
     return res.data;
   } catch (error) {
     console.log("error in newConvo API", error.message);
@@ -11,7 +14,10 @@ export const newConvo = async (data) => {
 };
 export const getConvo = async (data) => {
   try {
-    let res = await axios.get("http://localhost:5000/conversation/get", data);
+    let res = await axios.get(
+      "https://chat-buzz.onrender.com/conversation/get",
+      data
+    );
     return res.data;
   } catch (error) {
     console.log("error in getConvo API", error.message);
@@ -20,7 +26,10 @@ export const getConvo = async (data) => {
 
 export const getConvos = async (data) => {
   try {
-    let res = await axios.post("http://localhost:5000/conversation/get", data);
+    let res = await axios.post(
+      "https://chat-buzz.onrender.com/conversation/get",
+      data
+    );
     return res.data;
   } catch (error) {
     console.log("error in getConvo API", error.message);
@@ -29,7 +38,10 @@ export const getConvos = async (data) => {
 
 export const newMessage = async (data) => {
   try {
-    let response = await axios.post("http://localhost:5000/message/add", data);
+    let response = await axios.post(
+      "https://chat-buzz.onrender.com/message/add",
+      data
+    );
     return response.data;
   } catch (error) {
     console.log("error in newMessage API", error.message);
@@ -37,7 +49,9 @@ export const newMessage = async (data) => {
 };
 export const getMessage = async (id) => {
   try {
-    let response = await axios.get(`http://localhost:5000/message/get/${id}`);
+    let response = await axios.get(
+      `https://chat-buzz.onrender.com/message/get/${id}`
+    );
     return response.data;
   } catch (error) {
     console.log("Error while getMessage API", error.message);

@@ -14,7 +14,7 @@ export const Chats = ({ socket }) => {
 
   function userInfo() {
     axios
-      .get("http://localhost:5000/userinfo", {
+      .get("https://chat-buzz.onrender.com/userinfo", {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -27,7 +27,7 @@ export const Chats = ({ socket }) => {
   }
 
   function getAllUsers() {
-    axios.get("http://localhost:5000/getallusers").then((res) => {
+    axios.get("https://chat-buzz.onrender.com/getallusers").then((res) => {
       setUsers(res.data);
     });
   }

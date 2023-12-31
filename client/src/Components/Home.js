@@ -11,7 +11,7 @@ export const Home = () => {
   const registerUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/register", {
+      const response = await fetch("https://chat-buzz.onrender.com/register", {
         method: "POST",
         body: JSON.stringify({
           name: name,
@@ -36,7 +36,7 @@ export const Home = () => {
   const loginUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch("https://chat-buzz.onrender.com/login", {
         method: "POST",
         body: JSON.stringify({
           //name,
