@@ -1,14 +1,12 @@
 import React from "react";
-import { useState, useContext } from "react";
-import axios from "axios";
-import { AccountContext, AccountProvider } from "../Context/AccountProvider";
+import { useState } from "react";
 
 export const Home = () => {
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [loginDialog, setLoginDialog] = useState(false);
-  const { setValidLogin } = useContext(AccountContext);
+  // const { setValidLogin } = useContext(AccountContext);
   // const [phNumber, setPhNumber] = useState("");
   const registerUser = async (e) => {
     e.preventDefault();

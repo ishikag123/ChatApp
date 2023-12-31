@@ -34,7 +34,7 @@ export const loginUser = async (req, res) => {
       },
       SECRET_KEY,
       {
-        expiresIn: "1d",
+        expiresIn: "1h",
       }
     );
     console.log("login successful");

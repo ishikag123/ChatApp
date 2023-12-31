@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React from "react";
+import { useState, useEffect, useContext } from "react";
 import { ChatHeader } from "./ChatHeader";
-import img from "../../Assets/profile_pic.jpg";
 import axios from "axios";
+import { AccountContext } from "../../Context/AccountProvider";
+import { Conversation } from "./Conversation";
 
-export const Chats = () => {
+export const Chats = ({ socket }) => {
+  const { account, setAccount, setActiveUsers } = useContext(AccountContext);
   const [chatMenu, setChatMenu] = useState(false);
   const [users, setUsers] = useState([]);
 
-  const [account, setAccount] = useState({});
+  // const [account, setAccount] = useState({});
+
   function userInfo() {
     axios
       .get("http://localhost:5000/userinfo", {
@@ -18,46 +21,43 @@ export const Chats = () => {
       })
       .then((res) => {
         setAccount(res.data.user);
-        //console.log(res);
+        console.log(res.data.user);
+        console.log("Account", account);
       });
   }
 
   function getAllUsers() {
     axios.get("http://localhost:5000/getallusers").then((res) => {
-      //   const filterdata = res.filter((user) =>
-      //     user.name.toLowerCase().includes(account.toLowerCase())
-      //   );
-      //   setUsers(filterdata);
-      setUsers(res.data || []);
+      setUsers(res.data);
     });
   }
 
   useEffect(() => {
     userInfo();
+    getAllUsers();
   }, []);
 
+  // useEffect(() => {
+  //   getAllUsers();
+  // }, [account]);
+
   useEffect(() => {
-    getAllUsers();
+    socket.emit("addUsers", account);
+    console.log("Socket event 'addUsers' emitted in Chats component");
+    socket.on("getUsers", (users) => {
+      setActiveUsers(users);
+      console.log("Socket event 'getUsers' received in Chats component");
+      //console.log("Users", users);
+    });
   }, [account]);
 
   return (
     <div className="flex flex-col bg-[#f4f4f4] h-full rounded-lg w-1/3 ">
-      <ChatHeader account={account} />
+      <ChatHeader />
       <div className="flex flex-col">
         {users.map(
           (user) =>
-            user.userName !== account.userName && (
-              <div className="flex gap-2 border-b-2 items-center p-2 hover:bg-[#bed8d7a1] cursor-pointer">
-                <img
-                  src={img}
-                  alt=""
-                  className="h-10 w-10 rounded-full bg-white m-2"
-                />
-                <h1 className="font-bold text-base text-[#016966]">
-                  {user.userName}
-                </h1>
-              </div>
-            )
+            user.userName !== account.userName && <Conversation user={user} />
         )}
       </div>
       <div className="ml-auto m-3 mt-auto flex flex-col">
@@ -71,12 +71,12 @@ export const Chats = () => {
           <h1>Create Group</h1>
           <h1>New Chat</h1>
         </div>
-        <button
+        {/* <button
           className="text-2xl w-12 h-12 rounded-full bg-[#03d2cd]  relative shadow-lg ml-auto m-3 mt-auto"
           onClick={() => setChatMenu(!chatMenu)}
         >
           +
-        </button>
+        </button> */}
       </div>
     </div>
   );
