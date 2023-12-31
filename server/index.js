@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { Server } from "socket.io";
 import route from "./Routes/Routes.js";
 import Connection from "./Database/db.js";
+import path from "path";
 
 dotenv.config();
 
@@ -20,6 +21,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", route);
 
 Connection();
+
+// --------------------------deployment------------------------------
+
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/client/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
+
+// --------------------------deployment------------------------------
 
 const server = app.listen(PORT, () => {
   console.log("Server is running on PORT", PORT);
